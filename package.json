@@ -1,0 +1,215 @@
+{
+  "name": "components-srcs",
+  "description": "Material Design components for Angular",
+  "homepage": "https://github.com/angular/components",
+  "bugs": "https://github.com/angular/components/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular/components.git"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "npm": "Please use pnpm instead of NPM to install dependencies",
+    "yarn": "Please use pnpm instead of Yarn to install dependencies",
+    "pnpm": "^10.0.0"
+  },
+  "scripts": {
+    "ng-dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only node_modules/@angular/ng-dev/bundles/cli.mjs",
+    "ng-dev:stamp": "pnpm -s ng-dev release build-env-stamp --additional-stamping-script=tools/bazel-additional-stamp.mjs",
+    "build": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ./scripts/build-packages-dist-main.mts",
+    "build-docs-content": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only ./scripts/build-docs-content-main.mts",
+    "build-and-check-release-output": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/build-and-check-release-output.mts",
+    "dev-app": "ibazel run //src/dev-app:devserver",
+    "universal-app": "bazel run //src/universal-app:server",
+    "test": "node ./scripts/run-component-tests.js",
+    "test-local": "pnpm -s test --local",
+    "test-firefox": "pnpm -s test --firefox",
+    "test-tsec": "pnpm bazelisk test //... --build_tag_filters=tsec --test_tag_filters=tsec",
+    "lint": "pnpm -s tslint && pnpm -s stylelint && pnpm -s ownerslint && pnpm -s ng-dev format changed --check",
+    "e2e": "bazel test //src/... --build_tag_filters=e2e --test_tag_filters=e2e --build_tests_only",
+    "deploy-dev-app": "node ./scripts/deploy-dev-app.js",
+    "breaking-changes": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/breaking-changes.mts",
+    "check-entry-point-setup": "node ./scripts/check-entry-point-setup.mjs",
+    "check-package-externals": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/check-package-externals.mts",
+    "format": "pnpm -s ng-dev format changed",
+    "cherry-pick-patch": "ts-node --project tools/cherry-pick-patch/tsconfig.json tools/cherry-pick-patch/cherry-pick-patch.ts",
+    "ownerslint": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/ownerslint.mts",
+    "detect-component-id-collisions": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/detect-component-id-collisions.mts",
+    "tslint": "tslint -c tslint.json --project ./tsconfig.json",
+    "stylelint": "stylelint \"(src|docs)/**/*.+(css|scss)\" --config .stylelintrc.json",
+    "resync-caretaker-app": "ts-node --project scripts/tsconfig.json scripts/caretaking/resync-caretaker-app-prs.ts",
+    "ts-circular-deps:check": "pnpm -s ng-dev ts-circular-deps check --config ./src/circular-deps-test.conf.cjs",
+    "ts-circular-deps:approve": "pnpm -s ng-dev ts-circular-deps approve --config ./src/circular-deps-test.conf.cjs",
+    "merge": "pnpm -s ng-dev pr merge",
+    "approve-api": "node ./scripts/approve-api-golden.js",
+    "integration-tests": "bazel test --test_tag_filters=-linker-integration-test --build_tests_only -- //integration/...",
+    "test-linker-aot": "bazel test --partial_compilation --test_tag_filters=partial-compilation-integration,-firefox --build_tests_only -- //integration/... //src/...",
+    "test-linker-jit": "bazel test --partial_compilation --test_tag_filters=partial-compilation-integration,-firefox --build_tests_only --//tools:force_partial_jit_compilation=True  -- //integration/... //src/...",
+    "check-tooling-setup": "pnpm tsc --project tools/tsconfig.json --noEmit && pnpm tsc --project tools/adev-api-extraction/tsconfig.json --noEmit && pnpm tsc --project scripts/tsconfig.json --noEmit && pnpm tsc --project .ng-dev/tsconfig.json --noEmit",
+    "tsc": "node ./node_modules/typescript/bin/tsc",
+    "ci-push-deploy-docs-app": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/docs-deploy/deploy-ci-push.mts",
+    "ci-docs-monitor-test": "node --no-warnings=ExperimentalWarning --loader ts-node/esm/transpile-only scripts/docs-deploy/monitoring/ci-test.mts",
+    "prepare": "husky"
+  },
+  "version": "20.3.0-next.0",
+  "dependencies": {
+    "@angular-devkit/core": "catalog:",
+    "@angular-devkit/schematics": "catalog:",
+    "@angular/animations": "catalog:",
+    "@angular/common": "catalog:",
+    "@angular/compiler": "catalog:",
+    "@angular/core": "catalog:",
+    "@angular/forms": "catalog:",
+    "@angular/platform-browser": "catalog:",
+    "@types/google.maps": "^3.54.10",
+    "@types/youtube": "0.1.2",
+    "date-fns": "^4.1.0",
+    "luxon": "^3.0.0",
+    "moment": "^2.29.1",
+    "rxjs": "catalog:",
+    "rxjs-tslint-rules": "^4.34.8",
+    "safevalues": "^1.2.0",
+    "tslib": "^2.3.1",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "catalog:",
+    "@angular/localize": "catalog:",
+    "@angular/ng-dev": "https://github.com/angular/dev-infra-private-ng-dev-builds.git#85cc1d966e6c8f58e656d19e01984736d52dae1f",
+    "@angular/platform-server": "catalog:",
+    "@angular/router": "catalog:",
+    "@babel/core": "^7.16.12",
+    "@bazel/bazelisk": "1.26.0",
+    "@bazel/buildifier": "8.2.1",
+    "@bazel/ibazel": "^0.25.0",
+    "@bazel/runfiles": "6.3.1",
+    "@firebase/app-types": "^0.9.0",
+    "@material/material-color-utilities": "^0.3.0",
+    "@octokit/rest": "22.0.0",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@schematics/angular": "catalog:",
+    "@types/babel__core": "^7.1.18",
+    "@types/fs-extra": "^11.0.0",
+    "@types/jasmine": "^5.0.0",
+    "@types/luxon": "^3.0.0",
+    "@types/node": "^22.14.1",
+    "@types/selenium-webdriver": "^3.0.17",
+    "@types/semver": "^7.3.9",
+    "@types/shelljs": "^0.8.11",
+    "@types/yargs": "^17.0.8",
+    "autoprefixer": "^10.4.2",
+    "axe-core": "^4.10.3",
+    "chalk": "^5.4.1",
+    "dgeni": "^0.4.14",
+    "dgeni-packages": "^0.30.0",
+    "esbuild": "^0.25.0",
+    "firebase-tools": "14.12.0",
+    "fs-extra": "^11.0.0",
+    "glob": "^11.0.3",
+    "highlight.js": "^11.0.0",
+    "husky": "^9.0.1",
+    "jasmine": "^5.6.0",
+    "jasmine-core": "5.9.0",
+    "jasmine-reporters": "^2.5.2",
+    "jsonc-parser": "^3.3.1",
+    "kagekiri": "^2.0.0",
+    "karma": "^6.3.12",
+    "karma-browserstack-launcher": "^1.6.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-parallel": "^0.3.1",
+    "karma-sourcemap-loader": "^0.4.0",
+    "magic-string": "0.30.17",
+    "marked": "^16.0.0",
+    "minimatch": "^10.0.3",
+    "parse5": "^8.0.0",
+    "postcss": "^8.4.17",
+    "postcss-scss": "^4.0.4",
+    "prettier": "^3.5.3",
+    "protractor": "^7.0.0",
+    "requirejs": "^2.3.6",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "6.2.1",
+    "rollup-plugin-sourcemaps2": "0.5.3",
+    "sass": "^1.80.6",
+    "selenium-webdriver": "^3.6.0",
+    "semver": "^7.3.5",
+    "shelljs": "^0.10.0",
+    "slugify": "^1.6.6",
+    "source-map-support": "^0.5.21",
+    "stylelint": "^14.14.0",
+    "terser": "^5.10.0",
+    "ts-node": "^10.9.1",
+    "tsec": "0.2.8",
+    "tsickle": "0.46.3",
+    "tslint": "^6.1.3",
+    "tsutils": "^3.21.0",
+    "typescript": "5.9.2",
+    "vrsource-tslint-rules": "6.0.0",
+    "yargs": "^18.0.0",
+    "zx": "^8.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "5.9.2"
+    },
+    "onlyBuiltDependencies": [],
+    "packageExtensions": {
+      "dgeni-packages": {
+        "dependencies": {
+          "clonedeep": "*"
+        }
+      },
+      "grpc-gcp": {
+        "dependencies": {
+          "protobufjs": "7.4.0"
+        }
+      },
+      "@angular-eslint/eslint-plugin-template@19.3.0": {
+        "peerDependencies": {
+          "@typescript-eslint/parser": "*",
+          "@angular-eslint/template-parser": "*"
+        }
+      },
+      "@angular/animations": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        },
+        "peerDependencies": {
+          "@angular/common": "*"
+        }
+      },
+      "@angular/common": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        }
+      },
+      "@angular/forms": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        }
+      },
+      "@angular/platform-browser": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        }
+      },
+      "@angular/router": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        }
+      },
+      "@angular/localize": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        }
+      },
+      "@angular/platform-server": {
+        "dependencies": {
+          "@nginfra/angular-linking": "1.0.9"
+        }
+      }
+    }
+  }
+}
